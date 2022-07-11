@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Fake PLC": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
