@@ -42,13 +42,13 @@
             this.inputNUD = new System.Windows.Forms.NumericUpDown();
             this.writeBtn = new System.Windows.Forms.Button();
             this.autoRefreshCB = new System.Windows.Forms.CheckBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.refreshIntervalNUD = new System.Windows.Forms.NumericUpDown();
             this.refreshLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fromNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lengthNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.portNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inputNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.refreshIntervalNUD)).BeginInit();
             this.SuspendLayout();
             // 
             // intRadio
@@ -199,17 +199,37 @@
             this.autoRefreshCB.UseVisualStyleBackColor = true;
             this.autoRefreshCB.CheckStateChanged += new System.EventHandler(this.autoRefreshCB_CheckStateChanged);
             // 
-            // numericUpDown1
+            // refreshIntervalNUD
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(11, 87);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(198, 23);
-            this.numericUpDown1.TabIndex = 14;
+            this.refreshIntervalNUD.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.refreshIntervalNUD.Location = new System.Drawing.Point(11, 87);
+            this.refreshIntervalNUD.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.refreshIntervalNUD.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.refreshIntervalNUD.Name = "refreshIntervalNUD";
+            this.refreshIntervalNUD.Size = new System.Drawing.Size(198, 23);
+            this.refreshIntervalNUD.TabIndex = 14;
+            this.refreshIntervalNUD.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             // 
             // refreshLabel
             // 
             this.refreshLabel.AutoSize = true;
-            this.refreshLabel.Location = new System.Drawing.Point(23, 65);
+            this.refreshLabel.Location = new System.Drawing.Point(11, 65);
             this.refreshLabel.Name = "refreshLabel";
             this.refreshLabel.Size = new System.Drawing.Size(187, 15);
             this.refreshLabel.TabIndex = 15;
@@ -221,7 +241,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.refreshLabel);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.refreshIntervalNUD);
             this.Controls.Add(this.autoRefreshCB);
             this.Controls.Add(this.writeBtn);
             this.Controls.Add(this.inputNUD);
@@ -242,7 +262,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lengthNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.portNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inputNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.refreshIntervalNUD)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,7 +284,7 @@
         private NumericUpDown inputNUD;
         private Button writeBtn;
         private CheckBox autoRefreshCB;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown refreshIntervalNUD;
         private Label refreshLabel;
     }
 }

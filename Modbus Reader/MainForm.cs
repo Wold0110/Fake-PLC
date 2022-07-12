@@ -8,19 +8,13 @@ namespace Modbus_Reader
     }
     public partial class MainForm : Form
     {
+
         List<ModbusTarget> mtl = new List<ModbusTarget>();
-        public MainForm()
-        {
-            InitializeComponent();
-        }
+        public MainForm() => InitializeComponent();
         void MakeList()
         {
             modbusList.Items.Clear();
-            foreach(ModbusTarget m in mtl)
-            {
-                m.Read();
-                modbusList.Items.Add(m);
-            }
+            foreach(ModbusTarget m in mtl) { m.Read(); modbusList.Items.Add(m); }
         }
         public ReadType GetReadType()
         {
@@ -36,6 +30,7 @@ namespace Modbus_Reader
             byte temp;
             return t.All(x => byte.TryParse(x, out temp));
         }
+        #region Button-Click
         private void addBtn_Click(object sender, EventArgs e)
         {
             //validate IP
@@ -121,10 +116,29 @@ namespace Modbus_Reader
             else //not valid IP
                 MessageBox.Show("Hibás IP cím!");
         }
-
+        #endregion
         private void autoRefreshCB_CheckStateChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("asd");
+            if (autoRefreshCB.Checked)
+            {
+                //auto refresh bekapcsolva
+                refreshIntervalNUD.Enabled = true;
+                new Thread(AutomaticRefresh).Start();
+            }
+            else
+            {
+                //auto refresh kikapcsolva
+                refreshIntervalNUD.Enabled = false;
+            }
+        }
+        void AutomaticRefresh()
+        {
+            while(autoRefreshCB.Checked)
+            {
+                Thread.Sleep((int)refreshIntervalNUD.Value);
+                if(autoRefreshCB.Checked)
+                    MakeList();
+            }
         }
     }
 }
