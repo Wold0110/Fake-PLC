@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.intRadio = new System.Windows.Forms.RadioButton();
             this.stringRadio = new System.Windows.Forms.RadioButton();
             this.doubleRadio = new System.Windows.Forms.RadioButton();
@@ -134,7 +135,7 @@
             this.modbusList.ItemHeight = 15;
             this.modbusList.Location = new System.Drawing.Point(216, 14);
             this.modbusList.Name = "modbusList";
-            this.modbusList.Size = new System.Drawing.Size(572, 424);
+            this.modbusList.Size = new System.Drawing.Size(572, 274);
             this.modbusList.TabIndex = 7;
             // 
             // portNUD
@@ -239,7 +240,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 295);
             this.Controls.Add(this.refreshLabel);
             this.Controls.Add(this.refreshIntervalNUD);
             this.Controls.Add(this.autoRefreshCB);
@@ -256,6 +257,7 @@
             this.Controls.Add(this.doubleRadio);
             this.Controls.Add(this.stringRadio);
             this.Controls.Add(this.intRadio);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Main Menu";
             ((System.ComponentModel.ISupportInitialize)(this.fromNUD)).EndInit();
