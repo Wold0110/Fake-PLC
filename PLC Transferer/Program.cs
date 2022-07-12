@@ -1,18 +1,46 @@
 ﻿using EasyModbus;
 
-const string CONFIG_FILE = "config.cfg";
-
-Console.WriteLine("start");
+const string TRANSFER_FILE  = "transfer.cfg";
+const string CONFIG_FILE    = "config.cfg";
+int interval = 5000;
 List<Transfer> transferList = new List<Transfer>();
-foreach(string line in File.ReadAllLines(CONFIG_FILE))
-{
-    if (Transfer.ValidLine(line))
-        transferList.Add(Transfer.FromLine(line));
-    else
-        Console.WriteLine("Wrong config line: "+line);
-}
-//TODO: Transfer data fron plc 0
+#region Read-Files
+    #region Read-Config
+    foreach (string line in File.ReadLines(CONFIG_FILE))
+    {
+        string[] parts = line.Split('=');
+        switch (parts[0])
+        {
+            case "interval":
+                int n;
+                if (int.TryParse(parts[1], out n))
+                    interval = n;
+                else
+                    Console.WriteLine("Wrong interval: " + line);
+                break;
+            default:
+                Console.WriteLine("Wrong config line: "+line);
+                break;
+        }
+    }
+    #endregion
+    #region Read-Transfer
+    foreach (string line in File.ReadAllLines(TRANSFER_FILE))
+    {
+        if (Transfer.ValidLine(line))
+            transferList.Add(Transfer.FromLine(line));
+        else
+            Console.WriteLine("Wrong transfer line: "+line);
+    }
+    #endregion Read-Transfer
+#endregion Read-Files
 
+Console.WriteLine("Start: "+DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"));
+while (true)
+{
+    transferList.ForEach(x => x.Run());
+    Thread.Sleep(interval);
+}
 
 struct Target
 {
@@ -23,8 +51,12 @@ struct Target
         client = new(ip,port);
         this.addr = addr;
     }
+    public override string ToString()
+    {
+        return client.IPAddress + ":" + client.Port + " - " + addr;
+    }
 }
-class Transfer{
+internal class Transfer{
     Target source;
     Target destination;
     int length;
@@ -34,7 +66,23 @@ class Transfer{
         this.destination = destination;
         this.length = length;
     }
-    void Run() => destination.client.WriteMultipleRegisters(destination.addr,source.client.ReadHoldingRegisters(source.addr,length));
+    internal void Run() {
+        destination.client.Connect();
+        if(destination.client.Connected)
+        {
+            source.client.Connect();
+            if (source.client.Connected)
+            {
+                destination.client.WriteMultipleRegisters(destination.addr, source.client.ReadHoldingRegisters(source.addr, length));
+                source.client.Disconnect();
+            }
+            else
+                Console.WriteLine("Connection error with: "+source.client);
+            destination.client.Disconnect();
+        }
+        else
+            Console.WriteLine("Error with: "+destination.client);
+    } 
     
     #region IsValidX
     static bool IsValidIP(string ip)
@@ -77,35 +125,3 @@ internal class Log
     public static void Note(string message) => File.AppendAllText(LOG_FILE, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " | " + message);
 }
 #endregion Log
-/*
-//beleírok
-ModbusClient client = new ModbusClient("10.147.17.6", 502);
-client.Connect();
-
-string @ref = "TESZTREF";
-
-client.WriteMultipleRegisters(3000,    ModbusClient.ConvertStringToRegisters(@ref));
-
-client.Disconnect();
-
-
-Console.WriteLine("done...");
-Console.ReadKey();
-
-
-#pragma warning disable
-int[] ShortToInt(short[] array)
-{
-    int[] res = new int[array.Length];
-    for(int i = 0; i < array.Length; i++)
-        res[i] = array[i];
-    return res;
-}
-short[] IntToShort(int[] array)
-{
-    short[] res = new short[array.Length];
-    for (int i = 0; i < array.Length; ++i)
-        res[i] = short.Parse(array[i]+"");
-    return res;
-}
-*/
