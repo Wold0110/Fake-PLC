@@ -38,7 +38,6 @@ namespace Modbus_Reader
         }
         private void addBtn_Click(object sender, EventArgs e)
         {
-
             //validate IP
             string ip = ipText.Text;
             if (IsValidIP(ip))
@@ -94,15 +93,38 @@ namespace Modbus_Reader
 
         private void writeBtn_Click(object sender, EventArgs e)
         {
-            switch (GetReadType())
+            //validate IP
+            string ip = ipText.Text;
+            if (IsValidIP(ip))
             {
-                case ReadType.String:
-
-                    break;
-                default:
-
-                    break;
+                int addr = (int)fromNUD.Value;
+                int length = (int)lengthNUD.Value;
+                int port = (int)portNUD.Value;
+                if (addr + length > 65535)
+                {
+                    //TODO: overspill error
+                    MessageBox.Show("Túllóg a címzési tartományon (cím+hossz > 65535)");
+                }
+                else
+                {
+                    switch (GetReadType())
+                    {
+                        case ReadType.String:
+                            ModbusTarget.WriteToPLC(ip, port, addr,inputText.Text);
+                            break;
+                        default:
+                            ModbusTarget.WriteToPLC(ip, port, addr, (int)inputNUD.Value);
+                            break;
+                    }
+                }
             }
+            else //not valid IP
+                MessageBox.Show("Hibás IP cím!");
+        }
+
+        private void autoRefreshCB_CheckStateChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show("asd");
         }
     }
 }

@@ -27,6 +27,18 @@ namespace Modbus_Reader
         }
         public override string ToString() => ip + ":" + port+" "+Status+ "\t" + addr + ":" + length;
         public virtual void Read() { }
+        static void WriteToPLC(string ip, int port, int addr, int[] values)
+        {
+            ModbusClient mc = new(ip, port);
+            mc.Connect();
+            if (mc.Connected)
+                mc.WriteMultipleRegisters(addr, values);
+            else
+                MessageBox.Show("A kijelölt eszköz nem elérhető, nem lehet csatlakozni.");
+        }
+        public static void WriteToPLC(string ip, int port, int addr, string value) => WriteToPLC(ip,port,addr,ModbusClient.ConvertStringToRegisters(value));
+        public static void WriteToPLC(string ip, int port, int addr, int value) => WriteToPLC(ip, port, addr, new int[] { value });
+        
     }
     internal class ModbusIntTarget : ModbusTarget
     {

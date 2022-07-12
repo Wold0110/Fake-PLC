@@ -41,16 +41,20 @@
             this.inputText = new System.Windows.Forms.TextBox();
             this.inputNUD = new System.Windows.Forms.NumericUpDown();
             this.writeBtn = new System.Windows.Forms.Button();
+            this.autoRefreshCB = new System.Windows.Forms.CheckBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.refreshLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fromNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lengthNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.portNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inputNUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // intRadio
             // 
             this.intRadio.AutoSize = true;
-            this.intRadio.Location = new System.Drawing.Point(12, 95);
+            this.intRadio.Location = new System.Drawing.Point(11, 116);
             this.intRadio.Name = "intRadio";
             this.intRadio.Size = new System.Drawing.Size(39, 19);
             this.intRadio.TabIndex = 0;
@@ -62,7 +66,7 @@
             // stringRadio
             // 
             this.stringRadio.AutoSize = true;
-            this.stringRadio.Location = new System.Drawing.Point(12, 124);
+            this.stringRadio.Location = new System.Drawing.Point(12, 145);
             this.stringRadio.Name = "stringRadio";
             this.stringRadio.Size = new System.Drawing.Size(56, 19);
             this.stringRadio.TabIndex = 1;
@@ -74,7 +78,7 @@
             // doubleRadio
             // 
             this.doubleRadio.AutoSize = true;
-            this.doubleRadio.Location = new System.Drawing.Point(12, 149);
+            this.doubleRadio.Location = new System.Drawing.Point(12, 174);
             this.doubleRadio.Name = "doubleRadio";
             this.doubleRadio.Size = new System.Drawing.Size(63, 19);
             this.doubleRadio.TabIndex = 2;
@@ -85,14 +89,14 @@
             // 
             // ipText
             // 
-            this.ipText.Location = new System.Drawing.Point(90, 91);
+            this.ipText.Location = new System.Drawing.Point(90, 116);
             this.ipText.Name = "ipText";
             this.ipText.Size = new System.Drawing.Size(120, 23);
             this.ipText.TabIndex = 3;
             // 
             // fromNUD
             // 
-            this.fromNUD.Location = new System.Drawing.Point(90, 120);
+            this.fromNUD.Location = new System.Drawing.Point(90, 145);
             this.fromNUD.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -104,7 +108,7 @@
             // 
             // lengthNUD
             // 
-            this.lengthNUD.Location = new System.Drawing.Point(90, 149);
+            this.lengthNUD.Location = new System.Drawing.Point(90, 174);
             this.lengthNUD.Maximum = new decimal(new int[] {
             655535,
             0,
@@ -116,7 +120,7 @@
             // 
             // addBtn
             // 
-            this.addBtn.Location = new System.Drawing.Point(12, 178);
+            this.addBtn.Location = new System.Drawing.Point(11, 203);
             this.addBtn.Name = "addBtn";
             this.addBtn.Size = new System.Drawing.Size(73, 23);
             this.addBtn.TabIndex = 6;
@@ -135,7 +139,7 @@
             // 
             // portNUD
             // 
-            this.portNUD.Location = new System.Drawing.Point(90, 178);
+            this.portNUD.Location = new System.Drawing.Point(90, 203);
             this.portNUD.Maximum = new decimal(new int[] {
             655535,
             0,
@@ -184,11 +188,41 @@
             this.writeBtn.UseVisualStyleBackColor = true;
             this.writeBtn.Click += new System.EventHandler(this.writeBtn_Click);
             // 
+            // autoRefreshCB
+            // 
+            this.autoRefreshCB.AutoSize = true;
+            this.autoRefreshCB.Location = new System.Drawing.Point(12, 43);
+            this.autoRefreshCB.Name = "autoRefreshCB";
+            this.autoRefreshCB.Size = new System.Drawing.Size(96, 19);
+            this.autoRefreshCB.TabIndex = 13;
+            this.autoRefreshCB.Text = "Auto Frissítés";
+            this.autoRefreshCB.UseVisualStyleBackColor = true;
+            this.autoRefreshCB.CheckStateChanged += new System.EventHandler(this.autoRefreshCB_CheckStateChanged);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(11, 87);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(198, 23);
+            this.numericUpDown1.TabIndex = 14;
+            // 
+            // refreshLabel
+            // 
+            this.refreshLabel.AutoSize = true;
+            this.refreshLabel.Location = new System.Drawing.Point(23, 65);
+            this.refreshLabel.Name = "refreshLabel";
+            this.refreshLabel.Size = new System.Drawing.Size(187, 15);
+            this.refreshLabel.TabIndex = 15;
+            this.refreshLabel.Text = "Frissítési intervallum (másodperc):";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.refreshLabel);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.autoRefreshCB);
             this.Controls.Add(this.writeBtn);
             this.Controls.Add(this.inputNUD);
             this.Controls.Add(this.inputText);
@@ -208,6 +242,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lengthNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.portNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inputNUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,5 +263,8 @@
         private TextBox inputText;
         private NumericUpDown inputNUD;
         private Button writeBtn;
+        private CheckBox autoRefreshCB;
+        private NumericUpDown numericUpDown1;
+        private Label refreshLabel;
     }
 }

@@ -1,13 +1,17 @@
 ﻿using EasyModbus;
 
 const string CONFIG_FILE = "config.cfg";
-internal class Log
+
+Console.WriteLine("start");
+List<Transfer> transferList = new List<Transfer>();
+foreach(string line in File.ReadAllLines(CONFIG_FILE))
 {
-    const string LOG_FILE = "log.txt";
-    public static void Note(string message) => File.AppendAllText(LOG_FILE, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " | " + message);
+    if (Transfer.ValidLine(line))
+        transferList.Add(Transfer.FromLine(line));
+    else
+        Console.WriteLine("Wrong config line: "+line);
 }
-
-
+//TODO: Transfer data fron plc 0
 
 
 struct Target
@@ -30,6 +34,9 @@ class Transfer{
         this.destination = destination;
         this.length = length;
     }
+    void Run() => destination.client.WriteMultipleRegisters(destination.addr,source.client.ReadHoldingRegisters(source.addr,length));
+    
+    #region IsValidX
     static bool IsValidIP(string ip)
     {
         if (String.IsNullOrWhiteSpace(ip)) return false;
@@ -38,9 +45,7 @@ class Transfer{
         byte temp;
         return t.All(x => byte.TryParse(x, out temp));
     }
-
-    void Run() => destination.client.WriteMultipleRegisters(destination.addr,source.client.ReadHoldingRegisters(source.addr,length));
-    static bool ValidLine(string line)
+    internal static bool ValidLine(string line)
     {
         string[] t = line.Split(';');
         if (t.Length != 7) return false;
@@ -53,13 +58,25 @@ class Transfer{
         }
         return true;
     }
-    static Transfer FromLine(string line)
+    #endregion IsValidX
+    
+    internal static Transfer FromLine(string line)
     {
         string[] arr = line.Split(';');
         Target s, d;
         s = new(arr[0], int.Parse(arr[1]), int.Parse(arr[2]));
+        d = new(arr[4], int.Parse(arr[5]), int.Parse(arr[6]));
+        return new Transfer(s, d, int.Parse(arr[3]));
     }
 }
+
+#region Log
+internal class Log
+{
+    const string LOG_FILE = "log.txt";
+    public static void Note(string message) => File.AppendAllText(LOG_FILE, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " | " + message);
+}
+#endregion Log
 /*
 //beleírok
 ModbusClient client = new ModbusClient("10.147.17.6", 502);
