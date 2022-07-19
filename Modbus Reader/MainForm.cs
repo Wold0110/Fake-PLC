@@ -3,8 +3,7 @@ namespace Modbus_Reader
     public enum ReadType
     {
         Int,
-        String,
-        Double
+        String
     }
     public partial class MainForm : Form
     {
@@ -19,7 +18,6 @@ namespace Modbus_Reader
         public ReadType GetReadType()
         {
             if (stringRadio.Checked) return ReadType.String;
-            if (doubleRadio.Checked) return ReadType.Double;
             return ReadType.Int;
         }
         bool IsValidIP(string ip)
@@ -31,6 +29,16 @@ namespace Modbus_Reader
             return t.All(x => byte.TryParse(x, out temp));
         }
         #region Button-Click
+        private void delBtn_Click(object sender, EventArgs e)
+        {
+            object o = modbusList.SelectedItem;
+            if(o != null)
+            {
+                ModbusTarget mt = (ModbusTarget)o;
+                mtl.Remove(mt);
+                MakeList();
+            }
+        }
         private void addBtn_Click(object sender, EventArgs e)
         {
             //validate IP
@@ -40,11 +48,8 @@ namespace Modbus_Reader
                 int addr = (int)fromNUD.Value;
                 int length = (int)lengthNUD.Value;
                 int port = (int)portNUD.Value;
-                if(addr+length > 65535)
-                {
-                    //TODO: overspill error
+                if(addr+length > 65535) //would overspill
                     MessageBox.Show("Túllóg a címzési tartományon (cím+hossz > 65535)");
-                }
                 else
                 {
                     ModbusTarget mod= null;
@@ -53,9 +58,6 @@ namespace Modbus_Reader
                     {
                         case ReadType.String:
                             mod = new ModbusStringTarget(ip, addr, length,port);
-                            break;
-                        case ReadType.Double:
-                            mod = new ModbusTarget(ip, addr, length,port);
                             break;
                         default: //INT
                             mod = new ModbusIntTarget(ip, addr, length,port);
@@ -140,5 +142,8 @@ namespace Modbus_Reader
                     MakeList();
             }
         }
+
+        //close thread when hittin  ,X' 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e) => autoRefreshCB.Checked = false;
     }
 }

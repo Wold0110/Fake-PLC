@@ -3,6 +3,7 @@
 const string TRANSFER_FILE  = "transfer.cfg";
 const string CONFIG_FILE    = "config.cfg";
 int interval = 5000;
+List<string> errors = new List<string>();
 List<Transfer> transferList = new List<Transfer>();
 #region Read-Files
     #region Read-Config
@@ -13,13 +14,13 @@ List<Transfer> transferList = new List<Transfer>();
         {
             case "interval":
                 int n;
-                if (int.TryParse(parts[1], out n))
-                    interval = n;
-                else
-                    Console.WriteLine("Wrong interval: " + line);
+            if (int.TryParse(parts[1], out n))
+                interval = n;
+            else
+                errors.Add("Wrong interval: " + line);
                 break;
             default:
-                Console.WriteLine("Wrong config line: "+line);
+                errors.Add("Wrong config line: " + line);
                 break;
         }
     }
@@ -32,9 +33,12 @@ List<Transfer> transferList = new List<Transfer>();
         else
             Console.WriteLine("Wrong transfer line: "+line);
     }
-    #endregion Read-Transfer
+#endregion Read-Transfer
 #endregion Read-Files
 
+Console.Clear();
+errors.ForEach(x => Console.WriteLine(x));
+errors.Clear();
 Console.WriteLine("Start: "+DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"));
 while (true)
 {
