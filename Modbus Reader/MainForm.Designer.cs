@@ -134,6 +134,7 @@
             this.modbusList.Size = new System.Drawing.Size(389, 214);
             this.modbusList.TabIndex = 7;
             this.modbusList.UseTabStops = false;
+            this.modbusList.DoubleClick += new System.EventHandler(this.modbusList_DoubleClick);
             // 
             // portNUD
             // 
@@ -174,6 +175,11 @@
             // inputNUD
             // 
             this.inputNUD.Location = new System.Drawing.Point(198, 117);
+            this.inputNUD.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
             this.inputNUD.Name = "inputNUD";
             this.inputNUD.Size = new System.Drawing.Size(124, 23);
             this.inputNUD.TabIndex = 11;

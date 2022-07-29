@@ -145,5 +145,28 @@ namespace Modbus_Reader
 
         //close thread when hittin  ,X' 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e) => autoRefreshCB.Checked = false;
+
+        private void modbusList_DoubleClick(object sender, EventArgs e)
+        {
+            object o = modbusList.SelectedItem;
+            if(o != null)
+            {
+                ModbusTarget mt = (ModbusTarget)o;
+                lengthNUD.Value = mt.length;
+                ipText.Text = mt.mc.IPAddress;
+                portNUD.Value = mt.mc.Port;
+                fromNUD.Value = mt.addr;
+                if(o is ModbusIntTarget)    //INT
+                {
+                    intRadio.Checked = true;
+                    inputNUD.Value = ((ModbusIntTarget)o).Value;
+                }   
+                if(o is ModbusStringTarget) //STRING
+                {
+                    stringRadio.Checked = true;
+                    inputText.Text = ((ModbusStringTarget)o).Value;
+                }
+            }
+        }
     }
 }

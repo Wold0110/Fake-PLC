@@ -42,7 +42,7 @@ namespace Modbus_Reader
     }
     internal class ModbusIntTarget : ModbusTarget
     {
-        int Value;
+        internal int Value;
         public ModbusIntTarget(string ip, int addr, int length, int port) : base(ip, addr, length, port) { }
         public override void Read()
         {
@@ -55,7 +55,7 @@ namespace Modbus_Reader
     }
     internal class ModbusStringTarget : ModbusTarget
     {
-        string Value="";
+        internal string Value="";
 
         public ModbusStringTarget(string ip, int addr, int length, int port) : base(ip, addr, length, port) { }
         public override void Read()
