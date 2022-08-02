@@ -180,6 +180,11 @@
             0,
             0,
             0});
+            this.inputNUD.Minimum = new decimal(new int[] {
+            2147483646,
+            0,
+            0,
+            -2147483648});
             this.inputNUD.Name = "inputNUD";
             this.inputNUD.Size = new System.Drawing.Size(124, 23);
             this.inputNUD.TabIndex = 11;
