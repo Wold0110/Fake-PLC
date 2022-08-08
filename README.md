@@ -1,14 +1,15 @@
 # Modbus Project
 This solution contains multiple projects, here's the list:
-
+Uses [EasyModbusTCP .NET](http://easymodbustcp.net/en/) implementation
 ## Fake PLC
-- Contains 65535 read/write registers
-- Docker support
-- Runs on **port 502**
+- Contains *65535* read/write registers
+- [Docker support](https://hub.docker.com/r/wolf0110/fakeplc): `docker run -d -p 502:502 wolf0110/fakeplc`
+- Runs on port `502` by default
 
 ## Modbus Reader
-- Read/Write register
-- Handle multiple register on different devices
+- GUI tool to handle ModbusTCP
+- Read/Write registers
+- Handle multiple registers on different devices
 - Auto refresh register content in adjustable interval
 
 ## PLC Transferer
@@ -16,4 +17,4 @@ This solution contains multiple projects, here's the list:
 - from (ip,port,address) | length | to (ip,port,address)
 
 ## Error Translator
-- adjust an error code range to a single zeroed out register
+- transform an error code range to a single zeroed out register
