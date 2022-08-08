@@ -334,7 +334,7 @@
             this.Controls.Add(this.intRadio);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "Main Menu";
+            this.Text = "Modbus Tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.fromNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lengthNUD)).EndInit();
