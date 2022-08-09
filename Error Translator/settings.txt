@@ -1,2 +1,3 @@
 ﻿#cél ip;cél port; forrás ip; forrás port;cél cím
+#kamu plc és ahonnan másolok
 #;cím;a kód száma

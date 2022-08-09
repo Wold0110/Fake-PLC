@@ -4,32 +4,56 @@ const string CONFIG_FILE = "settings.txt";
 List<Machine> machines = new List<Machine>();
 Console.WriteLine("Starting...");
 List<string> lines = File.ReadAllLines(CONFIG_FILE).Where(x => x[0] != '#').ToList();
-Machine m;
+Machine m = null;
 foreach (string line in lines) {
     if (line[0] != ';')
     {
         //machine
+        Machine tmp;
+        if(Machine.NewMachine(line,out tmp))
+        {
+            machines.Add(m);
+            m = tmp;
+        }
     }
     else
     {
         //code
+        m.AddCode(line);
     }
 }
 internal class Machine
 {
-    ModbusClient target;
+    ModbusClient target; //fake PLC
     int targetAddr;
+    ModbusClient source; //target where LDS reads from
 
-    ModbusClient source;
     List<ErrorCode> codes = new List<ErrorCode>();
-
+    List<int> buffer = new List<int>();
+    
     internal Machine(string targetIP, int targetPort, string sourceIP, int sourcePort, int targetAddr)
     {
         target = new(targetIP, targetPort);
         source = new(sourceIP, sourcePort);
         this.targetAddr = targetAddr;
     }
-    static bool NewMachine(string line, out Machine m)
+    internal void Run()
+    {
+        buffer.Clear();
+        codes.ForEach(x => x.Run(source).ForEach(y => buffer.Add(y)));
+        target.Connect();
+        if (target.Connected)
+        {
+            buffer.ForEach(x => {
+                target.WriteSingleRegister(targetAddr, x);
+                while (target.ReadHoldingRegisters(targetAddr, 1)[0] != 0)
+                    Thread.Sleep(500);
+            });
+        }
+        
+    }
+    #region SettingUp-ObjectCreation
+    internal static bool NewMachine(string line, out Machine m)
     {
         m = null;
         string[] arr = line.Split(';');
@@ -75,15 +99,35 @@ internal class Machine
         byte temp;
         return t.All(x => byte.TryParse(x, out temp));
     }
+    #endregion SettingUp-ObjectCreation
 }
 
 internal class ErrorCode
 {
-    int addr;
-    int num;    
-    internal ErrorCode(int addr,int num)
+    int addr;   //PLC address
+    int code;   //error code
+    int num;    //number of errors
+    internal ErrorCode(int addr,int code)
     {
         this.addr = addr;
-        this.num = num;
+        this.code = code;
+        num = 0;
+    }
+    internal List<int> Run(ModbusClient source)
+    {
+        List<int> value = new List<int>();
+        source.Connect();
+        if (source.Connected) {
+            int read = source.ReadHoldingRegisters(addr, 1)[0];
+            source.Disconnect();
+            if (read < num) num = read;
+            else
+            {
+                for (int i = 0; i < read - num; ++i)
+                    value.Add(code);
+                num = read;
+            }
+        }
+        return value;
     }
 } 
