@@ -5,7 +5,16 @@ List<Machine> machines = new List<Machine>();
 Console.WriteLine("Starting...");
 List<string> lines = File.ReadAllLines(CONFIG_FILE).Where(x => x[0] != '#').ToList();
 Machine m;
-
+foreach (string line in lines) {
+    if (line[0] != ';')
+    {
+        //machine
+    }
+    else
+    {
+        //code
+    }
+}
 internal class Machine
 {
     ModbusClient target;
