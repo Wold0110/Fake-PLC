@@ -1,2 +1,2 @@
 ﻿#cél ip;cél port; forrás ip; forrás port;cél cím
-#
+#;cím;a kód száma
