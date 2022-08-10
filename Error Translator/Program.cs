@@ -5,23 +5,30 @@ List<Machine> machines = new List<Machine>();
 Console.WriteLine("Starting...");
 List<string> lines = File.ReadAllLines(CONFIG_FILE).Where(x => x[0] != '#').ToList();
 Machine m = null;
+
+//read config lines
 foreach (string line in lines) {
     if (line[0] != ';')
-    {
-        //machine
+    {   //machine
         Machine tmp;
-        if(Machine.NewMachine(line,out tmp))
-        {
-            machines.Add(m);
-            m = tmp;
-        }
+        if(Machine.NewMachine(line,out tmp)) { if (m != null) { machines.Add(m); } m = tmp; }
+        else Console.WriteLine("wrong line: "+line);
     }
-    else
+    else m.AddCode(line);
+}
+if(m != null) { machines.Add(m); }
+Console.WriteLine("number of machines: "+machines.Count);
+
+//loop to eternety
+if(machines.Count > 0)
+{
+    while (true)
     {
-        //code
-        m.AddCode(line);
+        machines.ForEach(x => x.Run());
+        Thread.Sleep(5000);
     }
 }
+
 internal class Machine
 {
     ModbusClient target; //fake PLC
@@ -30,7 +37,6 @@ internal class Machine
 
     List<ErrorCode> codes = new List<ErrorCode>();
     List<int> buffer = new List<int>();
-    
     internal Machine(string targetIP, int targetPort, string sourceIP, int sourcePort, int targetAddr)
     {
         target = new(targetIP, targetPort);
@@ -73,6 +79,7 @@ internal class Machine
         //return all are correct
         m = new(arr[0], port1, arr[2], port2, addr);
         return true;
+        Console.WriteLine("machine added "+line);
     }
     internal bool AddCode(string line)
     {
