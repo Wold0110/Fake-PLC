@@ -71,21 +71,15 @@ internal class Transfer{
         this.length = length;
     }
     internal void Run() {
-        destination.client.Connect();
-        if(destination.client.Connected)
+        try
         {
+            destination.client.Connect();
             source.client.Connect();
-            if (source.client.Connected)
-            {
-                destination.client.WriteMultipleRegisters(destination.addr, source.client.ReadHoldingRegisters(source.addr, length));
-                source.client.Disconnect();
-            }
-            else
-                Console.WriteLine("Connection error with: "+source.client);
+            destination.client.WriteMultipleRegisters(destination.addr, source.client.ReadHoldingRegisters(source.addr, length));
+            source.client.Disconnect();
             destination.client.Disconnect();
         }
-        else
-            Console.WriteLine("Error with: "+destination.client);
+        catch { Console.WriteLine("Error with transfer: "+destination.client+" | "+source.client); }
     } 
     
     #region IsValidX
