@@ -7,7 +7,7 @@ List<string> errors = new List<string>();
 List<Transfer> transferList = new List<Transfer>();
 #region Read-Files
     #region Read-Config
-    foreach (string line in File.ReadLines(CONFIG_FILE))
+    foreach (string line in File.ReadLines(CONFIG_FILE).Where(x => x[0] != '#').ToList())
     {
         string[] parts = line.Split('=');
         switch (parts[0])
