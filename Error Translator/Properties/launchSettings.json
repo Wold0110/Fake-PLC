@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Error Translator": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
