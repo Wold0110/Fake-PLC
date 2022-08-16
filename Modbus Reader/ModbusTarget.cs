@@ -11,21 +11,23 @@ namespace Modbus_Reader
     {
         public static string CheckMark => "✅"; //✅
         public static string RedX => "❌";  // ❌
-        string ip;
+        public string ip;
         public int addr;
         public int length;
-        int port;
+        public string name;
+        public int port;
         public string Status => mc.Connected ? CheckMark : RedX;
         public ModbusClient mc;
-        public ModbusTarget(string ip, int addr, int length, int port)
+        public ModbusTarget(string ip, int addr, int length, int port, string name)
         {
             this.ip = ip;
             this.addr = addr;
             this.length = length;
             this.port = port;
             mc = new(ip, port);
+            this.name = name;
         }
-        public override string ToString() => ip + ":" + port+" "+Status+ "\t" + addr + ":" + length;
+        public override string ToString() => ip + ":" + port+" "+Status+ (name != "" ? name + " " : "")+" " + addr + ":" + length+" ";
         public virtual void Read() { }
         static void WriteToPLC(string ip, int port, int addr, int[] values)
         {
@@ -43,7 +45,7 @@ namespace Modbus_Reader
     internal class ModbusIntTarget : ModbusTarget
     {
         internal int Value;
-        public ModbusIntTarget(string ip, int addr, int length, int port) : base(ip, addr, length, port) { }
+        public ModbusIntTarget(string ip, int addr, int length, int port, string name) : base(ip, addr, length, port, name) { }
         public override void Read()
         {
             mc.Connect();
@@ -57,7 +59,7 @@ namespace Modbus_Reader
     {
         internal string Value="";
 
-        public ModbusStringTarget(string ip, int addr, int length, int port) : base(ip, addr, length, port) { }
+        public ModbusStringTarget(string ip, int addr, int length, int port, string name) : base(ip, addr, length, port, name) { }
         public override void Read()
         {
             mc.Connect();

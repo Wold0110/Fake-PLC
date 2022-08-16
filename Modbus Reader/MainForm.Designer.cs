@@ -49,7 +49,9 @@
             this.addrLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.writeLabel = new System.Windows.Forms.Label();
+            this.exportBtn = new System.Windows.Forms.Button();
+            this.importBtn = new System.Windows.Forms.Button();
+            this.nameText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.fromNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lengthNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.portNUD)).BeginInit();
@@ -60,7 +62,7 @@
             // intRadio
             // 
             this.intRadio.AutoSize = true;
-            this.intRadio.Location = new System.Drawing.Point(71, 208);
+            this.intRadio.Location = new System.Drawing.Point(74, 126);
             this.intRadio.Name = "intRadio";
             this.intRadio.Size = new System.Drawing.Size(39, 19);
             this.intRadio.TabIndex = 5;
@@ -72,7 +74,7 @@
             // stringRadio
             // 
             this.stringRadio.AutoSize = true;
-            this.stringRadio.Location = new System.Drawing.Point(9, 208);
+            this.stringRadio.Location = new System.Drawing.Point(12, 126);
             this.stringRadio.Name = "stringRadio";
             this.stringRadio.Size = new System.Drawing.Size(56, 19);
             this.stringRadio.TabIndex = 4;
@@ -83,40 +85,40 @@
             // 
             // ipText
             // 
-            this.ipText.Location = new System.Drawing.Point(56, 88);
+            this.ipText.Location = new System.Drawing.Point(56, 68);
             this.ipText.Name = "ipText";
-            this.ipText.Size = new System.Drawing.Size(136, 23);
+            this.ipText.Size = new System.Drawing.Size(127, 23);
             this.ipText.TabIndex = 0;
             // 
             // fromNUD
             // 
-            this.fromNUD.Location = new System.Drawing.Point(56, 146);
+            this.fromNUD.Location = new System.Drawing.Point(56, 97);
             this.fromNUD.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
             this.fromNUD.Name = "fromNUD";
-            this.fromNUD.Size = new System.Drawing.Size(136, 23);
+            this.fromNUD.Size = new System.Drawing.Size(127, 23);
             this.fromNUD.TabIndex = 2;
             // 
             // lengthNUD
             // 
-            this.lengthNUD.Location = new System.Drawing.Point(56, 175);
+            this.lengthNUD.Location = new System.Drawing.Point(236, 97);
             this.lengthNUD.Maximum = new decimal(new int[] {
             655535,
             0,
             0,
             0});
             this.lengthNUD.Name = "lengthNUD";
-            this.lengthNUD.Size = new System.Drawing.Size(136, 23);
+            this.lengthNUD.Size = new System.Drawing.Size(86, 23);
             this.lengthNUD.TabIndex = 3;
             // 
             // addBtn
             // 
-            this.addBtn.Location = new System.Drawing.Point(119, 206);
+            this.addBtn.Location = new System.Drawing.Point(8, 151);
             this.addBtn.Name = "addBtn";
-            this.addBtn.Size = new System.Drawing.Size(203, 23);
+            this.addBtn.Size = new System.Drawing.Size(215, 23);
             this.addBtn.TabIndex = 6;
             this.addBtn.Text = "Hozzáad";
             this.addBtn.UseVisualStyleBackColor = true;
@@ -129,23 +131,23 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.modbusList.FormattingEnabled = true;
             this.modbusList.ItemHeight = 15;
-            this.modbusList.Location = new System.Drawing.Point(331, 14);
+            this.modbusList.Location = new System.Drawing.Point(331, 12);
             this.modbusList.Name = "modbusList";
-            this.modbusList.Size = new System.Drawing.Size(389, 214);
+            this.modbusList.Size = new System.Drawing.Size(389, 184);
             this.modbusList.TabIndex = 7;
             this.modbusList.UseTabStops = false;
             this.modbusList.DoubleClick += new System.EventHandler(this.modbusList_DoubleClick);
             // 
             // portNUD
             // 
-            this.portNUD.Location = new System.Drawing.Point(56, 117);
+            this.portNUD.Location = new System.Drawing.Point(236, 71);
             this.portNUD.Maximum = new decimal(new int[] {
             655535,
             0,
             0,
             0});
             this.portNUD.Name = "portNUD";
-            this.portNUD.Size = new System.Drawing.Size(136, 23);
+            this.portNUD.Size = new System.Drawing.Size(86, 23);
             this.portNUD.TabIndex = 1;
             this.portNUD.Value = new decimal(new int[] {
             502,
@@ -155,9 +157,9 @@
             // 
             // refreshBtn
             // 
-            this.refreshBtn.Location = new System.Drawing.Point(12, 14);
+            this.refreshBtn.Location = new System.Drawing.Point(158, 12);
             this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(211, 23);
+            this.refreshBtn.Size = new System.Drawing.Size(65, 23);
             this.refreshBtn.TabIndex = 9;
             this.refreshBtn.TabStop = false;
             this.refreshBtn.Text = "Frissít";
@@ -166,15 +168,15 @@
             // 
             // inputText
             // 
-            this.inputText.Location = new System.Drawing.Point(198, 117);
+            this.inputText.Location = new System.Drawing.Point(8, 182);
             this.inputText.Name = "inputText";
-            this.inputText.Size = new System.Drawing.Size(124, 23);
+            this.inputText.Size = new System.Drawing.Size(215, 23);
             this.inputText.TabIndex = 10;
             this.inputText.TabStop = false;
             // 
             // inputNUD
             // 
-            this.inputNUD.Location = new System.Drawing.Point(198, 117);
+            this.inputNUD.Location = new System.Drawing.Point(8, 182);
             this.inputNUD.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -186,15 +188,15 @@
             0,
             -2147483648});
             this.inputNUD.Name = "inputNUD";
-            this.inputNUD.Size = new System.Drawing.Size(124, 23);
+            this.inputNUD.Size = new System.Drawing.Size(215, 23);
             this.inputNUD.TabIndex = 11;
             this.inputNUD.TabStop = false;
             // 
             // writeBtn
             // 
-            this.writeBtn.Location = new System.Drawing.Point(198, 148);
+            this.writeBtn.Location = new System.Drawing.Point(229, 180);
             this.writeBtn.Name = "writeBtn";
-            this.writeBtn.Size = new System.Drawing.Size(124, 23);
+            this.writeBtn.Size = new System.Drawing.Size(93, 23);
             this.writeBtn.TabIndex = 12;
             this.writeBtn.TabStop = false;
             this.writeBtn.Text = "Írás";
@@ -220,7 +222,7 @@
             0,
             0,
             0});
-            this.refreshIntervalNUD.Location = new System.Drawing.Point(229, 45);
+            this.refreshIntervalNUD.Location = new System.Drawing.Point(236, 42);
             this.refreshIntervalNUD.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -232,7 +234,7 @@
             0,
             0});
             this.refreshIntervalNUD.Name = "refreshIntervalNUD";
-            this.refreshIntervalNUD.Size = new System.Drawing.Size(93, 23);
+            this.refreshIntervalNUD.Size = new System.Drawing.Size(86, 23);
             this.refreshIntervalNUD.TabIndex = 14;
             this.refreshIntervalNUD.TabStop = false;
             this.refreshIntervalNUD.Value = new decimal(new int[] {
@@ -244,7 +246,7 @@
             // refreshLabel
             // 
             this.refreshLabel.AutoSize = true;
-            this.refreshLabel.Location = new System.Drawing.Point(8, 47);
+            this.refreshLabel.Location = new System.Drawing.Point(15, 44);
             this.refreshLabel.Name = "refreshLabel";
             this.refreshLabel.Size = new System.Drawing.Size(215, 15);
             this.refreshLabel.TabIndex = 15;
@@ -252,9 +254,9 @@
             // 
             // delBtn
             // 
-            this.delBtn.Location = new System.Drawing.Point(198, 177);
+            this.delBtn.Location = new System.Drawing.Point(229, 151);
             this.delBtn.Name = "delBtn";
-            this.delBtn.Size = new System.Drawing.Size(124, 23);
+            this.delBtn.Size = new System.Drawing.Size(93, 23);
             this.delBtn.TabIndex = 16;
             this.delBtn.TabStop = false;
             this.delBtn.Text = "Törlés";
@@ -264,7 +266,7 @@
             // ipLabel
             // 
             this.ipLabel.AutoSize = true;
-            this.ipLabel.Location = new System.Drawing.Point(13, 91);
+            this.ipLabel.Location = new System.Drawing.Point(13, 71);
             this.ipLabel.Name = "ipLabel";
             this.ipLabel.Size = new System.Drawing.Size(20, 15);
             this.ipLabel.TabIndex = 17;
@@ -273,7 +275,7 @@
             // addrLabel
             // 
             this.addrLabel.AutoSize = true;
-            this.addrLabel.Location = new System.Drawing.Point(13, 148);
+            this.addrLabel.Location = new System.Drawing.Point(15, 99);
             this.addrLabel.Name = "addrLabel";
             this.addrLabel.Size = new System.Drawing.Size(32, 15);
             this.addrLabel.TabIndex = 18;
@@ -282,7 +284,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 177);
+            this.label1.Location = new System.Drawing.Point(189, 99);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 15);
             this.label1.TabIndex = 19;
@@ -291,27 +293,47 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 119);
+            this.label2.Location = new System.Drawing.Point(198, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(32, 15);
             this.label2.TabIndex = 20;
             this.label2.Text = "Port:";
             // 
-            // writeLabel
+            // exportBtn
             // 
-            this.writeLabel.AutoSize = true;
-            this.writeLabel.Location = new System.Drawing.Point(229, 96);
-            this.writeLabel.Name = "writeLabel";
-            this.writeLabel.Size = new System.Drawing.Size(73, 15);
-            this.writeLabel.TabIndex = 21;
-            this.writeLabel.Text = "Írandó érték:";
+            this.exportBtn.Location = new System.Drawing.Point(83, 12);
+            this.exportBtn.Name = "exportBtn";
+            this.exportBtn.Size = new System.Drawing.Size(69, 23);
+            this.exportBtn.TabIndex = 22;
+            this.exportBtn.Text = "Export";
+            this.exportBtn.UseVisualStyleBackColor = true;
+            this.exportBtn.Click += new System.EventHandler(this.exportBtn_Click);
+            // 
+            // importBtn
+            // 
+            this.importBtn.Location = new System.Drawing.Point(8, 12);
+            this.importBtn.Name = "importBtn";
+            this.importBtn.Size = new System.Drawing.Size(69, 23);
+            this.importBtn.TabIndex = 23;
+            this.importBtn.Text = "Import";
+            this.importBtn.UseVisualStyleBackColor = true;
+            this.importBtn.Click += new System.EventHandler(this.importBtn_Click);
+            // 
+            // nameText
+            // 
+            this.nameText.Location = new System.Drawing.Point(119, 125);
+            this.nameText.Name = "nameText";
+            this.nameText.Size = new System.Drawing.Size(203, 23);
+            this.nameText.TabIndex = 25;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(727, 234);
-            this.Controls.Add(this.writeLabel);
+            this.ClientSize = new System.Drawing.Size(727, 215);
+            this.Controls.Add(this.nameText);
+            this.Controls.Add(this.importBtn);
+            this.Controls.Add(this.exportBtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.addrLabel);
@@ -368,6 +390,8 @@
         private Label addrLabel;
         private Label label1;
         private Label label2;
-        private Label writeLabel;
+        private Button exportBtn;
+        private Button importBtn;
+        private TextBox nameText;
     }
 }

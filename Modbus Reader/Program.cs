@@ -11,8 +11,16 @@ namespace Modbus_Reader
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             Control.CheckForIllegalCrossThreadCalls = false;
+            string file = "";
+            string[] args = Environment.GetCommandLineArgs();
+            foreach (var x in args)
+                if (x.Contains(".wsbs"))
+                    file = x;
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            if (file == "")
+                Application.Run(new MainForm());
+            else
+                Application.Run(new MainForm(file));
         }
     }
 }
