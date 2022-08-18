@@ -7,7 +7,7 @@ List<string> errors = new List<string>();
 List<Transfer> transferList = new List<Transfer>();
 #region Read-Files
     #region Read-Config
-    foreach (string line in File.ReadLines(CONFIG_FILE).Where(x => x[0] != '#').ToList())
+    foreach (string line in File.ReadLines(CONFIG_FILE).Where(x => x[0] != '#' && !String.IsNullOrEmpty(x)).ToList())
     {
         string[] parts = line.Split('=');
         switch (parts[0])
@@ -37,14 +37,24 @@ List<Transfer> transferList = new List<Transfer>();
 #endregion Read-Files
 
 Console.Clear();
+Console.ForegroundColor = ConsoleColor.Yellow;
+Console.Write("[WARN] ");
+Console.ResetColor();
+
 errors.ForEach(x => Console.WriteLine(x));
 errors.Clear();
-Console.WriteLine("Start: "+DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"));
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.Write("[START] ");
+Console.ResetColor();
+Console.WriteLine(NOW());
+
 while (true)
 {
     transferList.ForEach(x => x.Run());
     Thread.Sleep(interval);
 }
+static string NOW() => DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
 
 struct Target
 {
@@ -64,6 +74,9 @@ internal class Transfer{
     Target source;
     Target destination;
     int length;
+
+    static string NOW() => DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+
     internal Transfer(Target source, Target destination,int length)
     {
         this.source = source;
@@ -79,8 +92,13 @@ internal class Transfer{
             source.client.Disconnect();
             destination.client.Disconnect();
         }
-        catch { Console.WriteLine("Error with transfer: "+destination.client+" | "+source.client); }
-    } 
+        catch {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("[ERROR] ");
+            Console.ResetColor();
+            Console.WriteLine(NOW()+" Transfer problem: "+destination+" - "+(destination.client.Connected ? 'Y' : 'N')+" | "+source+" - "+ (source.client.Connected ? 'Y' : 'N'));
+        }
+    }
     
     #region IsValidX
     static bool IsValidIP(string ip)
