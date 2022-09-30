@@ -2,10 +2,10 @@
 //See https://aka.ms/new-console-template for more information
 const string CONFIG_FILE = "settings.txt";
 List<Machine> machines = new List<Machine>();
-Console.WriteLine("Starting...");
+Console.WriteLine("[START] "+DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
 List<string> lines = File.ReadAllLines(CONFIG_FILE).Where(x => x[0] != '#').ToList();
 Machine m = null;
-
+   
 //read config lines
 foreach (string line in lines) {
     if (line[0] != ';')
@@ -47,16 +47,19 @@ internal class Machine
     {
         buffer.Clear();
         codes.ForEach(x => x.Run(source).ForEach(y => buffer.Add(y)));
-        target.Connect();
-        if (target.Connected)
+        try
         {
-            buffer.ForEach(x => {
-                target.WriteSingleRegister(targetAddr, x);
-                while (target.ReadHoldingRegisters(targetAddr, 1)[0] != 0)
-                    Thread.Sleep(500);
-            });
+            target.Connect();
+            if (target.Connected)
+            {
+                buffer.ForEach(x => {
+                    target.WriteSingleRegister(targetAddr, x);
+                    while (target.ReadHoldingRegisters(targetAddr, 1)[0] != 0)
+                        Thread.Sleep(500);
+                });
+            }
         }
-        
+        catch { }
     }
     #region SettingUp-ObjectCreation
     internal static bool NewMachine(string line, out Machine m)
@@ -123,18 +126,25 @@ internal class ErrorCode
     internal List<int> Run(ModbusClient source)
     {
         List<int> value = new List<int>();
-        source.Connect();
-        if (source.Connected) {
-            int read = source.ReadHoldingRegisters(addr, 1)[0];
-            source.Disconnect();
-            if (read < num) num = read;
-            else
+        try
+        {
+            source.Connect();
+            if (source.Connected)
             {
-                for (int i = 0; i < read - num; ++i)
-                    value.Add(code);
-                num = read;
+                int read = source.ReadHoldingRegisters(addr, 1)[0];
+                source.Disconnect();
+                if (read < num) num = read;
+                else
+                {
+                    for (int i = 0; i < read - num; ++i)
+                        value.Add(code);
+                    num = read;
+                }
             }
         }
+        catch { }
         return value;
+
+
     }
 } 
