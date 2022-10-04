@@ -1,23 +1,26 @@
 ﻿using EasyModbus;
-//See https://aka.ms/new-console-template for more information
+
 const string CONFIG_FILE = "settings.txt";
 List<Machine> machines = new List<Machine>();
 Console.WriteLine("[START] "+DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
 List<string> lines = File.ReadAllLines(CONFIG_FILE).Where(x => x[0] != '#').ToList();
 Machine m = null;
-   
+  
 //read config lines
 foreach (string line in lines) {
     if (line[0] != ';')
     {   //machine
         Machine tmp;
         if(Machine.NewMachine(line,out tmp)) { if (m != null) { machines.Add(m); } m = tmp; }
-        else Console.WriteLine("wrong line: "+line);
+        else Console.WriteLine("[WARN] wrong line: "+line);
     }
     else m.AddCode(line);
 }
 if(m != null) { machines.Add(m); }
-Console.WriteLine("number of machines: "+machines.Count);
+   
+Console.WriteLine("[INFO] Number of machines: "+machines.Count);
+for (int i = 0; i < machines.Count; i++)
+    Console.WriteLine("[INFO] "+(i+1)+". has " + machines[i].codes.Count+" number of codes to watch");
 
 //loop to eternety
 if(machines.Count > 0)
@@ -35,7 +38,7 @@ internal class Machine
     int targetAddr;
     ModbusClient source; //target where LDS reads from
 
-    List<ErrorCode> codes = new List<ErrorCode>();
+    internal List<ErrorCode> codes = new List<ErrorCode>();
     List<int> buffer = new List<int>();
     internal Machine(string targetIP, int targetPort, string sourceIP, int sourcePort, int targetAddr)
     {
@@ -54,6 +57,7 @@ internal class Machine
             {
                 buffer.ForEach(x => {
                     target.WriteSingleRegister(targetAddr, x);
+                    Console.WriteLine("[INFO] " +DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")+" wrote the following: "+x);
                     while (target.ReadHoldingRegisters(targetAddr, 1)[0] != 0)
                         Thread.Sleep(500);
                 });
@@ -142,7 +146,7 @@ internal class ErrorCode
                 }
             }
         }
-        catch { }
+        catch {}
         return value;
 
 
