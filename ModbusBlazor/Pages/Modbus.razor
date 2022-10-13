@@ -1,0 +1,120 @@
+﻿@page "/modbus"
+@using EasyModbus;
+
+<PageTitle>Modbus Webtool</PageTitle>
+
+<h3>Modbus</h3>
+
+<label for="ip">IP cím:</label>
+<input @bind="@ip" id="ip" class="form-control" type="text" placeholder="10.147.16.29"/>
+
+<label for="port">Port:</label>
+<input @bind="@port" id="port" class="form-control" type="number" placeholder="502" />
+
+<label for="addr">Cím:</label>
+<input @bind="@addr" id="addr" class="form-control" type="number" placeholder="MW%" />
+
+<label for="len">Olvasott rész hossza</label>
+<input @bind="@len" id="len" class="form-control" type="number" placeholder="16" />
+
+<label for="comment">Komment:</label>
+<input @bind="@comment" id="comment" class="form-control" type="text" placeholder="Valami leírás" />
+
+<input @onclick="(() => {type = ReadType.String;})" class="form-check-input" id="string" type="radio" name="type" value="string" />
+<label class="form-check-label" for="string">String</label>
+<br />
+<input @onclick="(() => {type = ReadType.Int;})" class="form-check-input" id="int" type="radio" name="type" value="int" />
+<label class="form-check-label" for="int">Int</label>
+<br />
+<input class="btn btn-primary" type="button" value="Hozzáadás" @onclick="AddElement" />
+<br />
+<input class="btn btn-primary" type="button" value="Frissítés" @onclick="RenderTable" />
+<div >
+    @content
+</div>
+@code {
+    MarkupString content;
+    string ip;
+    int port;
+    int addr;
+    int len;
+    string comment;
+    ReadType type;
+
+    internal enum ReadType{
+        Int,
+        String
+    }
+    internal class Reading{
+        public static string CheckMark => "✅"; //✅
+        public static string RedX => "❌";  // ❌
+
+        ModbusClient c;
+        string ip;
+        int port;
+        int addr;
+        int len;
+        string value;
+        string comment;
+        bool connected = false;
+        ReadType type;
+        internal Reading(string ip, int port, int addr, int len, string comment, ReadType type){
+            this.ip = ip;
+            this.port = port;
+            this.addr = addr;
+            this.len = len;
+            this.comment = comment;
+            this.type = type;
+            c = new(ip, port);
+        }
+        internal void Read(){
+            try{
+                connected = true;
+                c.Connect();
+
+                switch(type){
+                    case ReadType.Int:
+                        //int
+                        value = c.ReadHoldingRegisters(addr, 1)[0]+"";
+                        break;
+                    case ReadType.String:
+                        //string
+                        value = ModbusClient.ConvertRegistersToString(c.ReadHoldingRegisters(addr, len), 0, len);
+                        break;
+                }
+                c.Disconnect();
+            }catch{ connected = false; }
+        }
+        internal string Value => connected ? value : "Nem sikerült a csatlakozás, utolsó adat: "+value;
+        internal string TableView(int index) {
+
+            return $"<tr><td>{ip}</td><td>{port}</td><td>" + (type == ReadType.Int ? "Int" : "String") + $"</td><td>{addr}</td><td>{len}</td><td>{comment}</td><td>"
+                +(connected ? CheckMark : RedX) + $"</td><td>{Value}</td><td><input type='button' onclick=@'RemoveRead({index})'</td></tr>";
+        }
+    }
+    List<Reading> read_list = new List<Reading>();
+    internal void AddElement(){
+        read_list.Add(new(ip, port, addr, len, comment,type));
+
+        RenderTable();
+    }
+    internal void RenderTable(){
+        string table = "";
+
+        table += "<table class='table table-bordered table-striped thead-dark'>";
+        table += "<thead><tr><th>IP</th><th>Port</th><th>Típus</th><th>Cím</th><th>Hossz</th><th>Komment</th><th>Állapot</th><th>Érték</th><th>Törlés</th></tr></thead><tbody>";
+
+        read_list.ForEach(x => x.Read());
+        for(int i = 0; i < read_list.Count;++i){
+            table += read_list[i].TableView(i);
+        }
+
+        table += "</tbody></table>";
+
+        content = (MarkupString)table;
+    }
+    internal void RemoveRead(int index){
+        read_list.RemoveAt(index);
+        RenderTable();
+    }
+}

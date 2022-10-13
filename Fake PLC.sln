@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLC Transferer", "PLC Trans
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modbus Reader", "Modbus Reader\Modbus Reader.csproj", "{8DC502CE-3B0F-4076-9DE4-CCB69E7248D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Error Translator", "Error Translator\Error Translator.csproj", "{9779BC3C-BA26-40C5-BD9E-B522382629D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Error Translator", "Error Translator\Error Translator.csproj", "{9779BC3C-BA26-40C5-BD9E-B522382629D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusBlazor", "ModbusBlazor\ModbusBlazor.csproj", "{F8D08128-41C8-404D-8885-710CEE3C28A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9779BC3C-BA26-40C5-BD9E-B522382629D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9779BC3C-BA26-40C5-BD9E-B522382629D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9779BC3C-BA26-40C5-BD9E-B522382629D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8D08128-41C8-404D-8885-710CEE3C28A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8D08128-41C8-404D-8885-710CEE3C28A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8D08128-41C8-404D-8885-710CEE3C28A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8D08128-41C8-404D-8885-710CEE3C28A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
